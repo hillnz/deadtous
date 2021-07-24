@@ -30,6 +30,8 @@ jobs:
           git config user.email github-actions@github.com
           VERSION="$(jq -r .version <package.json)"
           if git rev-parse "$VERSION"; then
+            npm install
+            git checkout "${{ github.head_ref }}"
             npm version --no-git-tag-version patch
             VERSION=$(jq -r .version <package.json)
             git add package.json oclif.manifest.json README.md
@@ -64,8 +66,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -104,8 +104,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
       - name: Update repo description
         uses: peter-evans/dockerhub-description@v2

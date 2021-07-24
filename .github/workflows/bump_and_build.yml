@@ -31,6 +31,7 @@ jobs:
           VERSION="$(jq -r .version <package.json)"
           if git rev-parse "$VERSION"; then
             npm install
+            git checkout "${{ github.base_ref }}"
             npm version --no-git-tag-version patch
             VERSION=$(jq -r .version <package.json)
             git add package.json oclif.manifest.json README.md

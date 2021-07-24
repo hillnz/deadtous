@@ -102,6 +102,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - name: Update repo description
         uses: peter-evans/dockerhub-description@v2
         if: ${{ github.ref == 'refs/heads/main' }}

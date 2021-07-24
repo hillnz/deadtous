@@ -20,7 +20,7 @@ $ npm install -g deadtous
 $ deadtous COMMAND
 running command...
 $ deadtous (-v|--version|version)
-deadtous/0.0.3 darwin-x64 node-v14.17.3
+deadtous/0.0.4 linux-x64 node-v14.17.3
 $ deadtous --help [COMMAND]
 USAGE
   $ deadtous COMMAND
@@ -47,7 +47,7 @@ OPTIONS
   -s, --storage=storage  (required) storage path
 ```
 
-_See code: [src/commands/dump.ts](https://github.com/jonohill/deadtous/blob/v0.0.3/src/commands/dump.ts)_
+_See code: [src/commands/dump.ts](https://github.com/jonohill/deadtous/blob/v0.0.4/src/commands/dump.ts)_
 
 ## `deadtous help [COMMAND]`
 
@@ -78,7 +78,7 @@ OPTIONS
   -s, --storage=storage  (required) storage path
 ```
 
-_See code: [src/commands/import.ts](https://github.com/jonohill/deadtous/blob/v0.0.3/src/commands/import.ts)_
+_See code: [src/commands/import.ts](https://github.com/jonohill/deadtous/blob/v0.0.4/src/commands/import.ts)_
 
 ## `deadtous server`
 
@@ -94,7 +94,7 @@ OPTIONS
   --tokens=tokens        (required)
 ```
 
-_See code: [src/commands/server.ts](https://github.com/jonohill/deadtous/blob/v0.0.3/src/commands/server.ts)_
+_See code: [src/commands/server.ts](https://github.com/jonohill/deadtous/blob/v0.0.4/src/commands/server.ts)_
 
 ## `deadtous speak [USER]`
 
@@ -109,5 +109,5 @@ OPTIONS
   -s, --storage=storage  (required) storage path
 ```
 
-_See code: [src/commands/speak.ts](https://github.com/jonohill/deadtous/blob/v0.0.3/src/commands/speak.ts)_
+_See code: [src/commands/speak.ts](https://github.com/jonohill/deadtous/blob/v0.0.4/src/commands/speak.ts)_
 <!-- commandsstop -->

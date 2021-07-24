@@ -130,12 +130,15 @@ class S3Fs extends Fs {
     private _waiters: Function[];
     private _s3: S3;
 
-    constructor(basePath, concurrencyLimit=4) {
+    constructor(basePath: string, concurrencyLimit=4) {
         super()
+
+        // Remove s3:/ prefix
+        basePath = basePath.replace(/^s3:[\/]*/, '')
 
         // First path component is taken to be bucket name
         let basePathComponents = basePath.split('/')
-        this._bucket = basePathComponents.shift()
+        this._bucket = basePathComponents.shift() as string
         this._basePath = basePathComponents.join('/')
 
         this._concurrencyLimit = concurrencyLimit
@@ -170,17 +173,17 @@ class S3Fs extends Fs {
         }
     }
 
-    async _read(...pathComponents) {
+    async _read(key) {
         return await this._limit(async () => {
-            let key = pathComponents.join('/')
-            return await this._s3.getObject(key)
+            let s3Key = this._basePath ? this._joinPath(this._basePath, key) : key
+            return await this._s3.getObject(s3Key)
         })
     }
 
-    async _write(fileData, ...pathComponents) {
+    async _write(fileData, key) {
         await this._limit(async () => {
-            let key = pathComponents.join('/')
-            await this._s3.putObject(key, fileData)
+            let s3Key = this._basePath ? this._joinPath(this._basePath, key) : key
+            await this._s3.putObject(s3Key, fileData)
         });
     }
 
@@ -195,15 +198,12 @@ export class History {
     /**
      * 
      * @param {*} location Directory where history is/should be stored.
-     * @param {*} locationType 's3' or 'local'
      */
-    constructor(location, locationType='local') {
-        if (locationType == 'local') {
-            this.fs = new LocalFs(location)
-        } else if (locationType == 's3') {
+    constructor(location: string) {
+        if (location.startsWith('s3:')) {
             this.fs = new S3Fs(location)
         } else {
-            throw new Error(`${locationType} is not a known filesystem type`)
+            this.fs = new LocalFs(location)
         }
     }
 

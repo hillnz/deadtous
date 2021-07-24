@@ -64,5 +64,5 @@ FROM prod AS final
 
 # Regular final stage. Prod stage with server entrypoint.
 
-ENTRYPOINT [ "bin/run" ]
-CMD [ "server" ]
+ENTRYPOINT [ "bin/run", "server" ]
+CMD [ "--tokens", "$DEADTOUS_SLACK_TOKENS" ]

@@ -1,6 +1,6 @@
 {
   "name": "deadtous",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Jono Hill @jonohill",
   "bin": {
     "deadtous": "./bin/run"

@@ -1,6 +1,7 @@
 'use strict';
 
 import * as AWS from 'aws-sdk';
+import { Body } from 'aws-sdk/clients/s3'
 
 export class S3 {
     s3: AWS.S3;
@@ -11,18 +12,20 @@ export class S3 {
         this.bucket = bucket;
     }
 
-    getObject(key) {
-        return this.s3.getObject({
-            Bucket: this.bucket,
-            Key: key
-        }).promise()
-            .catch(err => {
-                if (err.code === 'NoSuchKey') {
-                    return false;
-                } else {
-                    throw err;
-                }
-            });
+    async getObject(key): Promise<Body | undefined> {
+        try {
+            let result = await this.s3.getObject({
+                Bucket: this.bucket,
+                Key: key
+            }).promise()
+            return result.Body
+        } catch (err) {
+            if (err.code === 'NoSuchKey') {
+                return;
+            } else {
+                throw err;
+            }
+        }
     }
 
     putObject(key, body) {

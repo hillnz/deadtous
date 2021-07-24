@@ -33,12 +33,23 @@ export class SlackServer {
         })
 
         /** Wrapper for async express handler */
-        function asyncHandler(f: (req: Request, resp: Response) => Promise<void>) {
+        function asyncHandler(f: (req: Request, resp: Response, next) => Promise<void>) {
             return function(req: Request, res: Response, next) {
-                f(req, res).catch(next)
+                f(req, res, next).catch(next)
             }
         }
         
+        /** Rewrite based on body, either slash command or webhook */
+        app.post('/', asyncHandler(async (req, _res, next) => {
+            let body = req.body
+            if (body.command) {
+                req.url = '/who'
+            } else if (body.text) {
+                req.url = '/speak'
+            }
+            next()
+        }))
+
         app.post('/who', asyncHandler(async (_req, res) => {
             let users = await history.getUsers()
             let responseMessage = 'The departed: ' + users.map(u => u.name).sort().reduce((prev, next) => prev + ', ' + next)
@@ -64,7 +75,7 @@ export class SlackServer {
             }
             res.send()
         }))
-        
+
         app.use((_req, res) => res.status(404).send())
     }
 

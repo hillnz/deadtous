@@ -2,9 +2,6 @@
 
 import * as AWS from 'aws-sdk';
 
-// const stage = process.env.stage || 'dev';
-// const service = process.env.service || 'deadtous';
-
 export class S3 {
     s3: AWS.S3;
     bucket: string;

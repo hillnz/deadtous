@@ -113,6 +113,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           repository: ${{ env.DOCKER_REPO }}
           readme-filepath: ./README.md
+      
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/*'
+      
+      - run: npm install
 
       - name: Publish to npm
         uses: JS-DevTools/npm-publish@v1

@@ -1,8 +1,6 @@
 deadtous
 ========
 
-# ⚠️ Not finished. Use at your peril. ⚠️
-
 It can be hard moving on from those who leave your Slack organisation. How about a #deadtous channel where you can still talk to the departed?
 
 ## What it does
@@ -65,9 +63,9 @@ Your server must be able to receive public HTTP requests so that Slack can send 
 
 ### AWS Lambda
 
-Lambda is very cheap and very convenient if you already have an AWS account.
+Lambda is very cheap, and convenient if you already have an AWS account.
 
-A Terraform module is available to make deployment easier, the repo contains usage details.
+A [Terraform module](https://registry.terraform.io/modules/jonohill/deadtous/aws/latest) is available to make deployment easier. You should be able to use [the example](https://github.com/jonohill/terraform-aws-deadtous/blob/main/examples/basic/main.tf) without modification by running `terraform apply`.
 
 If you have your own way to deploy Lambdas, you can use the [Docker image that includes the Lambda runtime](https://hub.docker.com/r/jonoh/deadtous/tags?page=1&ordering=last_updated&name=lambda) (the Lambda builds are tagged with a `-lambda` suffix).
 
@@ -137,7 +135,7 @@ OPTIONS
   -s, --storage=storage  (required) storage path
 ```
 
-_See code: [src/commands/dump.ts](https://github.com/jonohill/deadtous/blob/v0.1.7/src/commands/dump.ts)_
+_See code: [src/commands/dump.ts](https://github.com/jonohill/deadtous/blob/v1.0.0/src/commands/dump.ts)_
 
 ## `deadtous help [COMMAND]`
 
@@ -168,7 +166,7 @@ OPTIONS
   -s, --storage=storage  (required) storage path
 ```
 
-_See code: [src/commands/import.ts](https://github.com/jonohill/deadtous/blob/v0.1.7/src/commands/import.ts)_
+_See code: [src/commands/import.ts](https://github.com/jonohill/deadtous/blob/v1.0.0/src/commands/import.ts)_
 
 ## `deadtous server`
 
@@ -184,7 +182,7 @@ OPTIONS
   --tokens=tokens        (required)
 ```
 
-_See code: [src/commands/server.ts](https://github.com/jonohill/deadtous/blob/v0.1.7/src/commands/server.ts)_
+_See code: [src/commands/server.ts](https://github.com/jonohill/deadtous/blob/v1.0.0/src/commands/server.ts)_
 
 ## `deadtous speak [USER]`
 
@@ -199,7 +197,7 @@ OPTIONS
   -s, --storage=storage  (required) storage path
 ```
 
-_See code: [src/commands/speak.ts](https://github.com/jonohill/deadtous/blob/v0.1.7/src/commands/speak.ts)_
+_See code: [src/commands/speak.ts](https://github.com/jonohill/deadtous/blob/v1.0.0/src/commands/speak.ts)_
 <!-- commandsstop -->
 
 </details>

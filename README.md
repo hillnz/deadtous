@@ -117,25 +117,7 @@ You can run the CLI with `npx deadtous` or `docker run -it --rm jonoh/deadtous`.
   <summary>Show detailed usage</summary>
 
 <!-- commands -->
-* [`deadtous dump [KEY]`](#deadtous-dump-key)
 * [`deadtous help [COMMAND]`](#deadtous-help-command)
-* [`deadtous import [SLACK_EXPORT_FILE]`](#deadtous-import-slack_export_file)
-* [`deadtous server`](#deadtous-server)
-* [`deadtous speak [USER]`](#deadtous-speak-user)
-
-## `deadtous dump [KEY]`
-
-read a file from storage
-
-```
-USAGE
-  $ deadtous dump [KEY]
-
-OPTIONS
-  -s, --storage=storage  (required) storage path
-```
-
-_See code: [src/commands/dump.ts](https://github.com/jonohill/deadtous/blob/v1.0.0/src/commands/dump.ts)_
 
 ## `deadtous help [COMMAND]`
 
@@ -153,51 +135,6 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
-
-## `deadtous import [SLACK_EXPORT_FILE]`
-
-import a Slack export archive file
-
-```
-USAGE
-  $ deadtous import [SLACK_EXPORT_FILE]
-
-OPTIONS
-  -s, --storage=storage  (required) storage path
-```
-
-_See code: [src/commands/import.ts](https://github.com/jonohill/deadtous/blob/v1.0.0/src/commands/import.ts)_
-
-## `deadtous server`
-
-run a Slack webhook HTTP server
-
-```
-USAGE
-  $ deadtous server
-
-OPTIONS
-  -s, --storage=storage  (required) storage path
-  --port=port            [default: 8080]
-  --tokens=tokens        (required)
-```
-
-_See code: [src/commands/server.ts](https://github.com/jonohill/deadtous/blob/v1.0.0/src/commands/server.ts)_
-
-## `deadtous speak [USER]`
-
-make a dead user say something
-
-```
-USAGE
-  $ deadtous speak [USER]
-
-OPTIONS
-  -l, --list
-  -s, --storage=storage  (required) storage path
-```
-
-_See code: [src/commands/speak.ts](https://github.com/jonohill/deadtous/blob/v1.0.0/src/commands/speak.ts)_
 <!-- commandsstop -->
 
 </details>

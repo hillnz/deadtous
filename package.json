@@ -1,6 +1,6 @@
 {
   "name": "deadtous",
-  "version": "0.1.7",
+  "version": "1.0.0",
   "author": "Jono Hill @jonohill",
   "bin": {
     "deadtous": "./bin/run"
@@ -49,9 +49,7 @@
     "/oclif.manifest.json"
   ],
   "homepage": "https://github.com/jonohill/deadtous",
-  "keywords": [
-    "oclif"
-  ],
+  "keywords": [],
   "license": "MIT",
   "main": "lib/index.js",
   "oclif": {

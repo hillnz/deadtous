@@ -137,7 +137,7 @@ OPTIONS
   -s, --storage=storage  (required) storage path
 ```
 
-_See code: [src/commands/dump.ts](https://github.com/jonohill/deadtous/blob/v0.1.6/src/commands/dump.ts)_
+_See code: [src/commands/dump.ts](https://github.com/jonohill/deadtous/blob/v0.1.7/src/commands/dump.ts)_
 
 ## `deadtous help [COMMAND]`
 
@@ -168,7 +168,7 @@ OPTIONS
   -s, --storage=storage  (required) storage path
 ```
 
-_See code: [src/commands/import.ts](https://github.com/jonohill/deadtous/blob/v0.1.6/src/commands/import.ts)_
+_See code: [src/commands/import.ts](https://github.com/jonohill/deadtous/blob/v0.1.7/src/commands/import.ts)_
 
 ## `deadtous server`
 
@@ -184,7 +184,7 @@ OPTIONS
   --tokens=tokens        (required)
 ```
 
-_See code: [src/commands/server.ts](https://github.com/jonohill/deadtous/blob/v0.1.6/src/commands/server.ts)_
+_See code: [src/commands/server.ts](https://github.com/jonohill/deadtous/blob/v0.1.7/src/commands/server.ts)_
 
 ## `deadtous speak [USER]`
 
@@ -199,7 +199,7 @@ OPTIONS
   -s, --storage=storage  (required) storage path
 ```
 
-_See code: [src/commands/speak.ts](https://github.com/jonohill/deadtous/blob/v0.1.6/src/commands/speak.ts)_
+_See code: [src/commands/speak.ts](https://github.com/jonohill/deadtous/blob/v0.1.7/src/commands/speak.ts)_
 <!-- commandsstop -->
 
 </details>

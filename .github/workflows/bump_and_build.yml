@@ -49,7 +49,7 @@ jobs:
           git push --tags
 
   build:
-    name: Build
+    name: Build docker
     needs: version
     runs-on: ubuntu-latest
 
@@ -96,8 +96,8 @@ jobs:
           push: ${{ github.ref == 'refs/heads/main' }}
           tags: "${{ env.DOCKER_REPO }}:${{ steps.docker_tag.outputs.DOCKER_TAG }}${{ matrix.suffix }},${{ env.DOCKER_REPO }}:latest${{ matrix.suffix }}"
 
-  update:
-    name: Update readme
+  publish:
+    name: Publish
     needs: build
     runs-on: ubuntu-latest
 
@@ -113,3 +113,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           repository: ${{ env.DOCKER_REPO }}
           readme-filepath: ./README.md
+
+      - name: Publish to npm
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          dry-run: ${{ github.ref != 'refs/heads/main' }}
+          check-version: true

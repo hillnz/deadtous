@@ -1,33 +1,123 @@
 deadtous
 ========
 
-# --- WIP ---
+# ⚠️ Not finished. Use at your peril. ⚠️
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/deadtous.svg)](https://npmjs.org/package/deadtous)
-[![Downloads/week](https://img.shields.io/npm/dw/deadtous.svg)](https://npmjs.org/package/deadtous)
-[![License](https://img.shields.io/npm/l/deadtous.svg)](https://github.com/jonohill/deadtous/blob/master/package.json)
+It can be hard moving on from those who leave your Slack organisation. How about a #deadtous channel where you can still talk to the departed?
 
-<!-- toc -->
-* [--- WIP ---](#----wip----)
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
-# Usage
-<!-- usage -->
-```sh-session
-$ npm install -g deadtous
-$ deadtous COMMAND
-running command...
-$ deadtous (-v|--version|version)
-deadtous/0.1.6 darwin-x64 node-v14.17.3
-$ deadtous --help [COMMAND]
-USAGE
-  $ deadtous COMMAND
-...
+## What it does
+
+Once you deploy deadtous, configure Slack and provide an export of your Slack history, it'll take on the personalities of those who have left.
+You'll be able to mention them directly by name in the channel of your choice and they'll respond!
+
+You can:
+- Type `/deadtous` to see a list of who are the departed.
+- Type any message and mention one of these users to see them reply, e.g. `@john.smith we miss you!`
+
+## How it works
+
+- You configure a Slack slash command and webhook so that deadtous can receive Slack messages from the channel you've chosen.
+- You deploy deadtous somewhere it can receive webhooks from Slack (e.g. with a container, or in AWS using the Terraform module).
+- It takes your Slack history and filters down to deleted users' messages. Then those get run through a Markov engine.
+- When it receives a message, it checks for @mentions of deleted users. If it finds one, it uses the Markov data to generate a random message and responds, along with the deleted user's name and profile image.
+
+## Get started
+
+You will need to deploy deadtous somewhere it can receive an HTTP request from Slack. The [Deploy](#deploy) section lists some ways that you can do this.
+
+Choose how you'll deploy, then:
+1. Create an [Outgoing Webhook](https://my.slack.com/apps/A0F7VRG6Q-outgoing-webhooks?tab=more_info). Configure a channel so that only these messages get sent. Leave everything else as is for now and keep the page open. 
+2. Create a [Slash Command](https://my.slack.com/apps/A0F82E8CA-slash-commands?tab=more_info). Set the command to `/deadtous` (or something else if you prefer). You can set a custom icon and description if you like, but leave everything else as is for now, and keep the page open.
+3. Deploy, per your chosen option. You need to supply the Slack tokens - take these from the pages above, separated by a comma.
+4. Set the URL in the above pages. This URL must be public, as Slack will call this when a message is sent. If you used the Terraform deployment option, the URL will be printed on apply.
+
+Now you can supply your Slack export.
+1. [Export your Slack data](https://my.slack.com/services/export). If you have permission for private messages export, don't include these, otherwise the generated messages may include private content.
+2. Run deadtous directly to create the message digests. You can do that with `npx deadtous import`, or with `docker run --rm jonoh/deadtous import`. See [full CLI usage below](#deadtous-import-slack_export_file).
+3. If necessary, copy the message digests to the server's storage location.
+
+Example: run directly with S3 output.
 ```
-<!-- usagestop -->
-# Commands
+npx deadtous import -s s3:/my-bucket my-slack-export.zip
+```
+Example: run in Docker with local output.
+```
+docker run -it --rm -v /host/path:/data deadtous import my-slack-export.zip
+```
+
+Finally, you're done. Try mentioning a deleted user in your configured channel.
+
+## Deploy
+
+This section lists a few different ways you could deploy deadtous to a server.
+In all cases it requires somewhere to store data, a local filesystem or S3 are supported.
+To use S3, set the storage path in the format `s3:/bucket-name`, otherwise the path will be interpreted as local.
+
+<details>
+  <summary>Show deployment options</summary>
+
+### Run directly
+
+If you have a server with Node you can deploy and run it directly.
+[Clone the project](https://github.com/hillnz/deadtous), install the dependendies and then run `bin/run server`, or just run `npx deadtous server` (see [`deadtous server`](#deadtous-server) for usage).
+
+Your server must be able to receive public HTTP requests so that Slack can send its webhook request.
+
+### AWS Lambda
+
+Lambda is very cheap and very convenient if you already have an AWS account.
+
+A Terraform module is available to make deployment easier, the repo contains usage details.
+
+If you have your own way to deploy Lambdas, you can use the [Docker image that includes the Lambda runtime](https://hub.docker.com/r/jonoh/deadtous/tags?page=1&ordering=last_updated&name=lambda) (the Lambda builds are tagged with a `-lambda` suffix).
+
+### Docker Image
+
+The image is [published on  Docker hub](https://hub.docker.com/r/jonoh/deadtous).
+Run it as you would any other image, e.g. `docker run`, `docker-compose`, Kubernetes, etc. Your container must be able to receive public HTTP requests so that Slack can send its webhook request.
+
+### Environment variables
+
+Name | Default | Purpose
+---  | ---     | ---
+DEADTOUS_STORAGE | `/data` | Data storage location (local fs or s3)
+DEADTOUS_SLACK_TOKENS | None | Slack webhook/slash tokens (Required)
+DEADTOUS_PORT | 80 | Listening port
+
+### Ports
+
+Default | Purpose
+---     | ---
+80      | Listening port for Slack
+
+### Volumes
+
+Default Path | Purpose
+---  | ---
+`/data` | Storage location (set with `DEADTOUS_STORAGE`)
+
+### Example
+
+Running with `docker run`, listening on port 8080:
+```
+docker run \
+  -e DEADTOUS_SLACK_TOKENS=${SECRET_TOKENS} \
+  -p 8080:80 \
+  -v /host/path/to/data:/data \
+  jonoh/deadtous
+```
+
+
+
+</details>
+
+# CLI Usage
+
+You can run the CLI with `npx deadtous` or `docker run -it --rm jonoh/deadtous`.
+
+<details>
+  <summary>Show detailed usage</summary>
+
 <!-- commands -->
 * [`deadtous dump [KEY]`](#deadtous-dump-key)
 * [`deadtous help [COMMAND]`](#deadtous-help-command)
@@ -47,7 +137,7 @@ OPTIONS
   -s, --storage=storage  (required) storage path
 ```
 
-_See code: [src/commands/dump.ts](https://github.com/jonohill/deadtous/blob/v0.1.6/src/commands/dump.ts)_
+_See code: [src/commands/dump.ts](https://github.com/jonohill/deadtous/blob/v0.1.7/src/commands/dump.ts)_
 
 ## `deadtous help [COMMAND]`
 
@@ -78,7 +168,7 @@ OPTIONS
   -s, --storage=storage  (required) storage path
 ```
 
-_See code: [src/commands/import.ts](https://github.com/jonohill/deadtous/blob/v0.1.6/src/commands/import.ts)_
+_See code: [src/commands/import.ts](https://github.com/jonohill/deadtous/blob/v0.1.7/src/commands/import.ts)_
 
 ## `deadtous server`
 
@@ -94,7 +184,7 @@ OPTIONS
   --tokens=tokens        (required)
 ```
 
-_See code: [src/commands/server.ts](https://github.com/jonohill/deadtous/blob/v0.1.6/src/commands/server.ts)_
+_See code: [src/commands/server.ts](https://github.com/jonohill/deadtous/blob/v0.1.7/src/commands/server.ts)_
 
 ## `deadtous speak [USER]`
 
@@ -109,7 +199,7 @@ OPTIONS
   -s, --storage=storage  (required) storage path
 ```
 
-_See code: [src/commands/speak.ts](https://github.com/jonohill/deadtous/blob/v0.1.6/src/commands/speak.ts)_
+_See code: [src/commands/speak.ts](https://github.com/jonohill/deadtous/blob/v0.1.7/src/commands/speak.ts)_
 <!-- commandsstop -->
 
 </details>

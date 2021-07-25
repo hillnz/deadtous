@@ -62,7 +62,9 @@ CMD ["lib/lambda.handler"]
 
 FROM prod AS final
 
+ENV DEADTOUS_PORT=80
+
 # Regular final stage. Prod stage with server entrypoint.
 
-ENTRYPOINT [ "bin/run", "server" ]
-CMD [ "--tokens", "$DEADTOUS_SLACK_TOKENS" ]
+ENTRYPOINT [ "bin/run" ]
+CMD [ "server", "--port", "$DEADTOUS_PORT" "--tokens", "$DEADTOUS_SLACK_TOKENS" ]

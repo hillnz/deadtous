@@ -5,7 +5,6 @@ import { History } from './history'
 import { Request, Response, Express } from 'express'
 import * as Lambda from 'aws-lambda'
 
-/**  */
 export class SlackServer {
 
     public port

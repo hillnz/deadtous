@@ -16,7 +16,7 @@
     "node-stream-zip": "^1.13.6",
     "node-worker-threads-pool": "^1.5.0",
     "serverless-http": "^2.7.0",
-    "tslib": "^1.14.1",
+    "tslib": "^2.0.0",
     "wu": "^2.1.0"
   },
   "devDependencies": {

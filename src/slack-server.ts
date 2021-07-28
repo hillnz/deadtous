@@ -61,7 +61,7 @@ export class SlackServer {
 
             // Check if there's a username in the message
             let match: RegExpMatchArray | null;
-            if (match = text.match(/@([a-z0-9][a-z0-9._-]*)/)) {
+            if (match = text.match(/@([A-Za-z0-9][A-Za-z0-9._-]*)/)) {
                 let userId = match[1];
                 console.error('Extracted userId ' + userId);
 

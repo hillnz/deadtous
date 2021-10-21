@@ -1,4 +1,4 @@
-FROM node:14.17.3-buster AS base
+FROM node:17.0.0-buster AS base
 
 FROM base AS build
 
